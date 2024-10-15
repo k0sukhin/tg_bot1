@@ -36,18 +36,19 @@ class Details(Car):
         return f'Комплектующее: {self.name}. Необходима замена на {self.mileage_replacement} км'
 
 
-auto = Car(mark='VW', model='polo', mileage=250_000)
+if __name__ == "__main__":
+    auto = Car(mark='VW', model='polo', mileage=250_000)
 
-engine_oil = Details('Моторное масло', lifetime=10000)
-engine_oil.mileage_replacement_create(auto)
+    engine_oil = Details('Моторное масло', lifetime=10000)
+    engine_oil.mileage_replacement_create(auto)
 
-print(engine_oil.lifetime)
-print(engine_oil)
+    print(engine_oil.lifetime)
+    print(engine_oil)
 
-print(auto.mileage)
-print(engine_oil.check_lifetime(auto))
+    print(auto.mileage)
+    print(engine_oil.check_lifetime(auto))
 
-auto.mileage_update(258999)
-print(auto.mileage)
+    auto.mileage_update(258999)
+    print(auto.mileage)
 
-print(engine_oil.check_lifetime(auto))
+    print(engine_oil.check_lifetime(auto))
