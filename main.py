@@ -93,6 +93,11 @@ def car_info_menu(call):
 
             main_menu(call.message)
 
+        elif call.data == 'update_car_info':
+            update_mileage = bot.send_message(call.message.chat.id,
+                                 'Введите новый пробег:')
+            bot.register_next_step_handler(update_mileage, update_mileage_func)
+
 
 def func(message):
     auto.mark = message.text
@@ -121,6 +126,16 @@ def func3(message):
         message.chat.id,
         'Информация успешно введена',
         reply_markup=car_info_menu_keyboard)
+    
+
+def update_mileage_func(message):
+    auto.mileage_update(message.text)
+    bot.send_message(
+        message.chat.id,
+        'Пробег успешно обновлен')
+    
+
+
 
 
 if __name__ == "__main__":
