@@ -7,6 +7,7 @@ from classes import Car
 bot = telebot.TeleBot('7505931690:AAEmlFx2JFy6lHf6t_80Bd_mqLlXatUqTjs')
 auto = Car()
 flag = False
+details_list = []
 
 
 @bot.message_handler(commands=['start'])
@@ -77,15 +78,11 @@ def car_info_menu(call):
                 flag = True
             else:
                 bot.send_message(call.message.chat.id,
-                                 'Информация об авто:')
-                bot.send_message(call.message.chat.id,
-                                 f'Марка авто - {auto.mark}')
-                bot.send_message(call.message.chat.id,
-                                 f'Модель авто - {auto.model}')
-                bot.send_message(call.message.chat.id,
-                                 f'Год выпуска авто - {auto.year_of_manufacture}')
-                bot.send_message(call.message.chat.id,
-                                 f'Пробег авто - {auto.mileage}')
+                                 f"Информация об авто:\n"
+                                 f"Марка - {auto.mark}\n"
+                                 f"Модель - {auto.model}\n"
+                                 f"Год выпуска - {auto.year_of_manufacture}\n"
+                                 f"Пробег - {auto.mileage}\n")
 
         elif call.data == 'back':
             bot.delete_message(chat_id=call.message.chat.id,
@@ -95,8 +92,14 @@ def car_info_menu(call):
 
         elif call.data == 'update_car_info':
             update_mileage = bot.send_message(call.message.chat.id,
-                                 'Введите новый пробег:')
+                                              'Введите новый пробег:')
             bot.register_next_step_handler(update_mileage, update_mileage_func)
+
+        elif call.data == 'details_info':
+            if details_list == []:
+                bot.send_message(call.message.chat.id, 'Комплектующие не добавлены')
+            else:
+                bot.send_message(call.message.chat.id, details_list)
 
 
 def func(message):
@@ -126,16 +129,13 @@ def func3(message):
         message.chat.id,
         'Информация успешно введена',
         reply_markup=car_info_menu_keyboard)
-    
+
 
 def update_mileage_func(message):
     auto.mileage_update(message.text)
     bot.send_message(
         message.chat.id,
         'Пробег успешно обновлен')
-    
-
-
 
 
 if __name__ == "__main__":
